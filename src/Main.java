@@ -10,40 +10,44 @@ public class Main {
     }
 
     public static String findClearPath(String[][] maze) {
-        String path = "(0,0) → ";
+        String path = "";
         int up = 0;
         int down = 0;
         int left = 0;
         int right = 0;
         for(int row = 0;row < maze.length;row++){
             for (int col = 0;col < maze[0].length;col++){
-                if (!(row - 1 < 0)){
-                    up = row - 1;
+                if (row - 1 >= 0){
+                    up = row;
                 }
-                if (!(row + 1 > 0)){
-                    down = row - 1;
+                if (row + 1 <= maze.length){
+                    down = row;
                 }
-                if (!(col - 1 < 0)){
-                    left = col - 1;
+                if (col - 1 >= 0){
+                    left = col;
                 }
-                if (!(col + 1 > 0)){
-                    right = col - 1;
+                if (col + 1 <= maze[0].length){
+                    right = col;
                 }
-                if (maze[up][col].contains(".")){
+                if (maze[up][col].equalsIgnoreCase(".")){
                     row = up;
-                    path += "(" + row + "," + col + ") → ";
+                    path += "(" + up + "," + col + ") → ";
                 }
-                else if (maze[down][col].contains(".")){
+                else if (maze[down][col].equalsIgnoreCase(".")){
                     row = down;
-                    path += "(" + row + "," + col + ") → ";
+                    path += "(" + down + "," + col + ") → ";
                 }
-                else if (maze[row][left].contains(".")){
+                else if (maze[row][left].equalsIgnoreCase(".")){
                     col = left;
-                    path += "(" + row + "," + col + ") → ";
+                    path += "(" + row + "," + left + ") → ";
                 }
-                else if (maze[up][right].contains(".")){
+                else if (maze[row][right].equalsIgnoreCase(".")){
                     col = right;
-                    path += "(" + row + "," + col + ") → ";
+                    path += "(" + row + "," + right + ") → ";
+                }
+                if (row == maze.length - 1 && col == maze[0].length - 1){
+                    int pathLength = path.length();
+                    path = path.substring(0,pathLength - 3);
                 }
             }
         }
