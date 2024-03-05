@@ -7,51 +7,60 @@ public class Main {
     public static void main(String[] args) {
         String[][] maze = getMaze("src/maze");
         System.out.println(findClearPath(maze));
+        seeMaze(maze);
     }
 
     public static String findClearPath(String[][] maze) {
-        String path = "";
-        int up = 0;
-        int down = 0;
-        int left = 0;
-        int right = 0;
+        int up;
+        int down;
+        int left;
+        int right;
+        StringBuilder path = new StringBuilder();
         for(int row = 0;row < maze.length;row++){
             for (int col = 0;col < maze[0].length;col++){
                 if (row - 1 >= 0){
                     up = row;
+                    if (maze[up][col].equalsIgnoreCase(".")){
+                        path.append("(").append(up).append(",").append(col).append(") → ");
+                        maze[up][col] = "#";
+                    }
                 }
                 if (row + 1 <= maze.length){
                     down = row;
+                    if (maze[down][col].equalsIgnoreCase(".")){
+                        path.append("(").append(down).append(",").append(col).append(") → ");
+                        maze[down][col] = "#";
+                    }
                 }
                 if (col - 1 >= 0){
                     left = col;
+                    if (maze[row][left].equalsIgnoreCase(".")){
+                        path.append("(").append(row).append(",").append(left).append(") → ");
+                        maze[row][left] = "#";
+                    }
                 }
                 if (col + 1 <= maze[0].length){
                     right = col;
-                }
-                if (maze[up][col].equalsIgnoreCase(".")){
-                    row = up;
-                    path += "(" + up + "," + col + ") → ";
-                }
-                else if (maze[down][col].equalsIgnoreCase(".")){
-                    row = down;
-                    path += "(" + down + "," + col + ") → ";
-                }
-                else if (maze[row][left].equalsIgnoreCase(".")){
-                    col = left;
-                    path += "(" + row + "," + left + ") → ";
-                }
-                else if (maze[row][right].equalsIgnoreCase(".")){
-                    col = right;
-                    path += "(" + row + "," + right + ") → ";
+                    if (maze[row][right].equalsIgnoreCase(".")){
+                        path.append("(").append(row).append(",").append(right).append(") → ");
+                        maze[row][right] = "#";
+                    }
                 }
                 if (row == maze.length - 1 && col == maze[0].length - 1){
                     int pathLength = path.length();
-                    path = path.substring(0,pathLength - 3);
+                    path = new StringBuilder(path.substring(0, pathLength - 3));
                 }
             }
         }
-        return path;
+        return path.toString();
+    }
+    public static void seeMaze(String[][] maze){
+        for (int r = 0; r < maze.length;r++){
+            for (int c = 0; c < maze[0].length;c++){
+                System.out.print(maze[r][c]);
+            }
+            System.out.println();
+        }
     }
 
     public static String[][] getMaze(String fileName) {
